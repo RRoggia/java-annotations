@@ -5,6 +5,10 @@
 	<groupId>java-annotations</groupId>
 	<artifactId>java-annotations</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.checkerframework</groupId>
@@ -29,7 +33,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>3.6.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -37,4 +41,46 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>checker-compiler</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/java</directory>
+						<excludes>
+							<exclude>**/*.java</exclude>
+						</excludes>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.6.1</version>
+						<configuration>
+							<source>1.8</source>
+							<target>1.8</target>
+							<compilerArguments>
+								<Xmaxerrs>10000</Xmaxerrs>
+								<Xmaxwarns>10000</Xmaxwarns>
+							</compilerArguments>
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.checkerframework</groupId>
+									<artifactId>checker</artifactId>
+									<version>2.10.0</version>
+								</path>
+							</annotationProcessorPaths>
+							<annotationProcessors>
+								<annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+							</annotationProcessors>
+							<compilerArgs>
+								<arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+							</compilerArgs>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

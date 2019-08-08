@@ -112,7 +112,7 @@ Type annotations are used to ensure a stronger type checking. The Java SE 8 rele
 
 In this way, you can build on top of the Java type system, adding specific checks when and where you want them.
 
-
+This projects uses the [checker framework](https://checkerframework.org/) to exemplify the compiler enhancement. By running `mvn clean install` you will run the default compiler and the `mvn clean install -Pchecker-compiler` you will run the compiler with the null validation at compile time.
 
 
 
